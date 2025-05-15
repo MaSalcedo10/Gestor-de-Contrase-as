@@ -49,9 +49,9 @@ def menu():
         elif opcion == '3':
             buscar_contrasena()
         elif opcion == '4':
-            print("Modificar contraseña")
+            modificar_contrasena()
         elif opcion == '5':
-            print("Eliminar contraseña")
+            eliminar_contrasena()
         elif opcion == '6':
             print("Saliendo de la aplicación...")
             break
@@ -95,5 +95,38 @@ def buscar_contrasena():
             tabla = tabulate(datos, headers, tablefmt="fancy_grid")
             print('\t\t\t\tContraseña encontrada')
             print(tabla)
+
+def modificar_contrasena():
+    contrasena_maestra = getpass("Ingrese su contraseña maestra: ")
+    respuesta = Usuario.comprobar_contrasena_maestra(1, contrasena_maestra)
+    if len(respuesta) == 0:
+        print("Contraseña maestra incorrecta")
+    else:
+        id = input("Ingrese el ID de la contraseña que desea modificar: ")
+        datos = Contrasena.buscar_contrasena(id)
+        if len(datos) == 0:
+            print("No se encontró la contraseña")
+        else:
+            nombre = input("Ingrese el nuevo nombre de la contraseña: ")
+            url = input("Ingrese la nueva URL: ")
+            nombre_usuario = input("Ingrese el nuevo nombre de usuario: ")
+            contrasena = input("Ingrese la nueva contraseña: ")
+            descripcion = input("Ingrese una nueva descripción: ")    
+            respuesta = Contrasena.modificar_contrasena(id, nombre, url, nombre_usuario, contrasena, descripcion)
+            print(respuesta)
+
+def eliminar_contrasena():
+    contrasena_maestra = getpass("Ingrese su contraseña maestra: ")
+    respuesta = Usuario.comprobar_contrasena_maestra(1, contrasena_maestra)
+    if len(respuesta) == 0:
+        print("Contraseña maestra incorrecta")
+    else:
+        id = input("Ingrese el ID de la contraseña que desea eliminar: ")
+        respuesta = Contrasena.eliminar_contrasena(id)
+        print(respuesta)
+
+
+
+
 
 iniciar_sesion()  
